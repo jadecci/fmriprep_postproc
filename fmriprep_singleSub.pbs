@@ -1,0 +1,39 @@
+#!/bin/bash
+#PBS -S /bin/bash
+#PBS -N fmriprep
+#PBS -q circ-spool
+#PBS -l walltime=10:00:00
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=30gb
+
+# set up directories
+project_dir=/data/users/jianxiaow/storage/projects/Fmriprep
+orig_dir=/mnt/yeogrp/data/GSP_release
+func_dir=/mnt/yeogrp/data/GSP2016/CBIG_preproc_global_cen_bp/GSP_single_session/CBIG2016_preproc_global_cen_bp
+recon_dir=$project_dir/reconall
+data_dir=$HOME/data
+output_dir=/tmp/results
+work_dir=/tmp/work
+export FS_LICENSE=$HOME/license.txt
+
+# prepare data
+mkdir -p $data_dir/sub-$subject/anat
+mri_convert $orig_dir/Sub${subject}_Ses1_FS/mri/orig/001.mgz $data_dir/sub-$subject/anat/sub-${subject}_T1w.nii.gz
+mkdir -p $data_dir/sub-$subject/func
+cp $func_dir/Sub${subject}_Ses1/bold/002/Sub${subject}_Ses1_bld002_rest_skip4.nii.gz $data_dir/sub-$subject/func/sub-${subject}_task-rest_run-01_bold.nii.gz
+cp $func_dir/Sub${subject}_Ses1/bold/003/Sub${subject}_Ses1_bld003_rest_skip4.nii.gz $data_dir/sub-$subject/func/sub-${subject}_task-rest_run-02_bold.nii.gz
+
+#use existing reconall
+mkdir -p $output_dir/freesurfer
+cp -r $recon_dir/sub-$subject $output_dir/freesurfer/
+chmod -R 755 $output_dir/freesurfer/sub-$subject
+
+# call fmriprep
+cmd="/apps/arch/Linux_x86_64/singularity-2.4.6/bin/singularity run $project_dir/poldracklab_fmriprep_latest-2018-04-16-9433699f2bdc.img $data_dir $output_dir participant --participant-label $subject --output-space fsaverage --work-dir $work_dir --omp-nthreads 1 --nthreads 1"
+echo $cmd
+eval $cmd
+
+# get results
+mv $output_dir/fmriprep/sub-$subject $project_dir/results
+mv $output_dir/fmriprep/sub-$subject.html $project_dir/results
+rm -r $output_dir/freesurfer/sub-$subject
