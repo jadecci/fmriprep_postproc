@@ -5,7 +5,7 @@
 #Set up parameters
 ##################################################################
 sub_dir=/data/users/jianxiaow/storage/projects/Fmriprep/reconall
-sub_name=`cat /data/users/jianxiaow/storage/projects/Git_codes/data/GSP_subjectnames.csv`
+sub_name=`cat GSP_subjectnames.csv`
 
 ##################################################################
 #Make sure subject directory is set up
