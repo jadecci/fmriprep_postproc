@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # set up directories
-subject=1530
+subject=$1
 project_dir=/data/users/jianxiaow/storage/projects/Fmriprep
 preproc_util_dir=$CBIG_CODE_DIR/stable_projects/preprocessing/CBIG_fMRI_Preproc2016/utilities
 intermediate_dir=$project_dir/results/sub-$subject/intermediate
