@@ -1,10 +1,6 @@
-#!/bin/bash
-#PBS -S /bin/bash
-#PBS -N fmriprep
-#PBS -q circ-spool
-#PBS -l walltime=10:00:00
-#PBS -l nodes=1:ppn=2
-#PBS -l mem=30gb
+#!/usr/bin/env bash
+
+subject=$1
 
 # set up directories
 project_dir=/data/users/jianxiaow/storage/projects/Fmriprep
@@ -17,6 +13,7 @@ work_dir=/tmp/work
 export FS_LICENSE=$HOME/license.txt
 
 # prepare data
+if [ -d $data_dir/sub-$subject ]; then rm -rf $data_dir/sub-$subject; fi
 mkdir -p $data_dir/sub-$subject/anat
 mri_convert $orig_dir/Sub${subject}_Ses1_FS/mri/orig/001.mgz $data_dir/sub-$subject/anat/sub-${subject}_T1w.nii.gz
 mkdir -p $data_dir/sub-$subject/func
@@ -33,7 +30,7 @@ rm -rf $work_dir/fmriprep_wf/single_subject_${subject}_wf
 rm -rf $work_dir/reportlets/fmriprep/sub-${subject}
 rm -rf $output_dir/fmriprep/sub-$subject
 rm -f $output_dir/fmriprep/sub-$subject.html
-cmd="/apps/arch/Linux_x86_64/singularity-2.4.6/bin/singularity run $project_dir/poldracklab_fmriprep_latest-2018-04-16-9433699f2bdc.img $data_dir $output_dir participant --participant-label $subject --output-space fsaverage --work-dir $work_dir --omp-nthreads 1 --nthreads 1"
+cmd="/apps/arch/Linux_x86_64/singularity-2.4.6/bin/singularity run $project_dir/poldracklab_fmriprep_latest-2018-04-16-9433699f2bdc.img $data_dir $output_dir participant --participant-label $subject --output-space T1w fsaverage fsaverage6 --work-dir $work_dir --omp-nthreads 1 --nthreads 1"
 echo $cmd
 eval $cmd
 
@@ -49,5 +46,9 @@ rm -rf $output_dir/freesurfer/sub-$subject
 # collect some intermediate files for further processing
 mkdir -p $project_dir/results/sub-$subject/intermediate
 # mc.par
-cp $work_dir/fmriprep_wf/single_subject_${subject}_wf/func_preproc_task_rest_run_01_wf/bold_hmc_wf/mcflirt/sub-${subject}_task-rest_run-01_bold_valid_mcf.nii.gz.par $project_dir/results/sub-$subject/intermediate
-cp $work_dir/fmriprep_wf/single_subject_${subject}_wf/func_preproc_task_rest_run_02_wf/bold_hmc_wf/mcflirt/sub-${subject}_task-rest_run-02_bold_valid_mcf.nii.gz.par $project_dir/results/sub-$subject/intermediate
+cp $work_dir/fmriprep_wf/single_subject_${subject}_wf/func_preproc_task_rest_run_01_wf/bold_hmc_wf/mcflirt/sub-${subject}_task-rest_run-01_*_mcf.nii.gz.par $project_dir/results/sub-$subject/intermediate
+cp $work_dir/fmriprep_wf/single_subject_${subject}_wf/func_preproc_task_rest_run_02_wf/bold_hmc_wf/mcflirt/sub-${subject}_task-rest_run-02_*_mcf.nii.gz.par $project_dir/results/sub-$subject/intermediate
+
+# remove work dir
+rm -rf $work_dir/fmriprep_wf/single_subject_${subject}_wf
+
