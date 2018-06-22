@@ -61,20 +61,20 @@ do
   echo "5. Convert gifti input to nifti file"
   nifti_sample=$project_dir/sample.nii.gz
   gifti=$func_dir/${prefix}_bold_space-fsaverage6.L.func.gii
-  nifti=$intermediate_dir/${prefix}_bold_space-fsaverage6.L.func.nii.gz
-  matlab -nodesktop -nosplash -r "mri_g = gifti('$gifti'); mri_n = MRIread('$nifti_sample'); mri_n.vol = reshape(mri_g.cdata, [6, 1, 6827, 120]); MRIwrite(mri_n, '$nifti'); exit"
+  nifti=$intermediate_dir/${prefix}_bold_space-fsaverage6.L.nii.gz
+  matlab -nodesktop -nosplash -r "mri_g = gifti('$gifti'); mri_n = MRIread('$nifti_sample'); mri_n.vol = reshape(mri_g.cdata, [1, 6, 6827, 120]); MRIwrite(mri_n, '$nifti'); exit"
   gifti=$func_dir/${prefix}_bold_space-fsaverage6.R.func.gii
-  nifti=$intermediate_dir/${prefix}_bold_space-fsaverage6.R.func.nii.gz
-  matlab -nodesktop -nosplash -r "mri_g = gifti('$gifti'); mri_n = MRIread('$nifti_sample'); mri_n.vol = reshape(mri_g.cdata, [6, 1, 6827, 120]); MRIwrite(mri_n, '$nifti'); exit"
+  nifti=$intermediate_dir/${prefix}_bold_space-fsaverage6.R.nii.gz
+  matlab -nodesktop -nosplash -r "mri_g = gifti('$gifti'); mri_n = MRIread('$nifti_sample'); mri_n.vol = reshape(mri_g.cdata, [1, 6, 6827, 120]); MRIwrite(mri_n, '$nifti'); exit"
 
   # apply GLM
   echo "6. Apply GLM"
   if [ -e $fmri_list ]; then rm $fmri_list; fi
-  echo "$intermediate_dir/${prefix}_bold_space-fsaverage6.L.func.nii.gz" >> $fmri_list
-  echo "$intermediate_dir/${prefix}_bold_space-fsaverage6.R.func.nii.gz" >> $fmri_list
+  echo "$intermediate_dir/${prefix}_bold_space-fsaverage6.L.nii.gz" >> $fmri_list
+  echo "$intermediate_dir/${prefix}_bold_space-fsaverage6.R.nii.gz" >> $fmri_list
   if [ -e $output_list ]; then rm $output_list; fi
-  echo "$func_dir/${prefix}_bold_space-fsaverage6_residc.L.func.nii.gz" >> $output_list
-  echo "$func_dir/${prefix}_bold_space-fsaverage6_residc.R.func.nii.gz" >> $output_list
+  echo "$func_dir/${prefix}_bold_space-fsaverage6_residc.L.nii.gz" >> $output_list
+  echo "$func_dir/${prefix}_bold_space-fsaverage6_residc.R.nii.gz" >> $output_list
   if [ -e $all_regressors_list ]; then rm $all_regressors_list; fi
   echo "$all_regressors" >> $all_regressors_list
   echo "$all_regressors" >> $all_regressors_list
