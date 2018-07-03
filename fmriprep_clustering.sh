@@ -69,6 +69,6 @@ done
 
 # run clustering
 cmd="$parc_code_dir/CBIG_Yeo2011_general_cluster_fcMRI_surf2surf_profiles.csh -sd $tmp_sub_dir -sub_ls $tmp_sublist -surf_stem _surf_fs5 -n 17 -out_dir $output_dir -cluster_out $output_prefix -tries 1000 -outlier_stem _motion_outliers"
-/data/users/jianxiaow/storage/projects/Git_codes/utilities/imgRegProj_pbsubmit.sh $work_dir cluster 20 2 5 "$cmd"
+/data/users/jianxiaow/storage/projects/Git_codes/utilities/imgRegProj_pbsubmit.sh $work_dir cluster 20 4 5 "$cmd"
 
 

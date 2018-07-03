@@ -55,7 +55,7 @@ do
   fd_file=$regress_dir/${prefix}_fd.txt
   matlab -nodesktop -nojvm -nosplash -r "motion_outliers('$confounds', '$dvars_file', '$fd_file'); exit"
   outliers_file=$regress_dir/${prefix}_motion_outliers.txt
-  matlab -nodesktop -nojvm -nosplash -r "CBIG_preproc_motion_outliers('$dvars_file', '$fd_file', '0.5', '50', '5', '$outliers_file'); exit"
+  matlab -nodesktop -nojvm -nosplash -r "CBIG_preproc_motion_outliers('$dvars_file', '$fd_file', '0.4', '50', '5', '$outliers_file'); exit"
 
   # convert gifti file
   echo "5. Convert gifti input to nifti file"

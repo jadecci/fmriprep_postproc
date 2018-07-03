@@ -31,17 +31,18 @@ do
     input_before=$func_dir/${prefix}_bold_space-fsaverage6_residc.$hemi.nii.gz
     input_interim=$intermediate_dir/${prefix}_interp_inter.$hemi.nii.gz
     input_final=$func_dir/${prefix}_bold_space-fsaverage6_residc_interp.$hemi.nii.gz
-    fake_mask=$project_dir/sample_mask.nii.gz
+    fake_mask=$project_dir/sample_mask.$hemi.nii.gz
     outliers_file=$regress_dir/${prefix}_motion_outliers.txt
     $matlab_dir/matlab -nodesktop -nosplash -r "addpath('$preproc_util_dir'); CBIG_preproc_CensorQC('$censor_qc_dir', '$sub', '$run', '$input_before', '$input_interim', '$input_final', '$fake_mask', '$fake_mask','$outliers_file'); rmpath('$preproc_util_dir'); exit"
 
     # greyplot
     echo "$hemi: 2. Greyplot"
     input=$func_dir/${prefix}_bold_space-fsaverage6_residc_interp_bp.$hemi.nii.gz
+#    input=$project_dir/temp_sub-${subject}.$hemi.nii.gz
     dvars_file=$regress_dir/${prefix}_dvars.txt
     fd_file=$regress_dir/${prefix}_fd.txt
     output=$qc_dir/${prefix}_greyplot.$hemi.png
-    $matlab_dir/matlab -nodesktop -nosplash -r "addpath('$preproc_util_dir'); CBIG_preproc_QC_greyplot('$input', '$fd_file', '$dvars_file', '$output', 'GM_mask', '$fake_mask', 'WB_mask', '$fake_mask', 'grey_vox_factor', '200', 'tp_factor', '0.3', 'FD_thres', '0.5', 'DV_thres', '50'); rmpath('$preproc_util_dir'); exit"
+    $matlab_dir/matlab -nodesktop -nosplash -r "addpath('$preproc_util_dir'); CBIG_preproc_QC_greyplot('$input', '$fd_file', '$dvars_file', '$output', 'GM_mask', '$fake_mask', 'WB_mask', '$fake_mask', 'grey_vox_factor', '200', 'tp_factor', '0.3', 'FD_thres', '0.4', 'DV_thres', '50'); rmpath('$preproc_util_dir'); exit"
 
     # FD-DVARS correlation
     echo "$hemi: 3. FD-DVARS Correlation"
