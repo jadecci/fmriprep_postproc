@@ -46,8 +46,8 @@ rm -rf $output_dir/freesurfer/sub-$subject
 # collect some intermediate files for further processing
 mkdir -p $project_dir/results/sub-$subject/intermediate
 # mc.par
-cp $work_dir/fmriprep_wf/single_subject_${subject}_wf/func_preproc_task_rest_run_01_wf/bold_hmc_wf/mcflirt/sub-${subject}_task-rest_run-01_*_mcf.nii.gz.par $project_dir/results/sub-$subject/intermediate
-cp $work_dir/fmriprep_wf/single_subject_${subject}_wf/func_preproc_task_rest_run_02_wf/bold_hmc_wf/mcflirt/sub-${subject}_task-rest_run-02_*_mcf.nii.gz.par $project_dir/results/sub-$subject/intermediate
+cp $work_dir/fmriprep_wf/single_subject_${subject}_wf/func_preproc_task_rest_run_01_wf/bold_hmc_wf/mcflirt/sub-${subject}_task-rest_run-01_*_mcf.nii.gz.par $project_dir/results/sub-$subject/intermediate/sub-${subject}_task-rest_run-01_bold_valid_mcf.nii.gz.par
+cp $work_dir/fmriprep_wf/single_subject_${subject}_wf/func_preproc_task_rest_run_02_wf/bold_hmc_wf/mcflirt/sub-${subject}_task-rest_run-02_*_mcf.nii.gz.par $project_dir/results/sub-$subject/intermediate/sub-${subject}_task-rest_run-02_bold_valid_mcf.nii.gz.par
 
 # remove work dir
 rm -rf $work_dir/fmriprep_wf/single_subject_${subject}_wf
