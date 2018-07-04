@@ -38,7 +38,6 @@ do
     # greyplot
     echo "$hemi: 2. Greyplot"
     input=$func_dir/${prefix}_bold_space-fsaverage6_residc_interp_bp.$hemi.nii.gz
-#    input=$project_dir/temp_sub-${subject}.$hemi.nii.gz
     dvars_file=$regress_dir/${prefix}_dvars.txt
     fd_file=$regress_dir/${prefix}_fd.txt
     output=$qc_dir/${prefix}_greyplot.$hemi.png
